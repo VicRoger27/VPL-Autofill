@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Vopple Public License (VPL) Generator</title>
+  <title>Vopple Public License (VPL) v1.3.0 Studio</title>
   <!-- Embedded SVG Thick Book Favicon in #11FFAA Neon -->
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='24' fill='%230f172a'/><rect x='30' y='18' width='50' height='64' rx='6' fill='%231e293b' stroke='%2311FFAA' stroke-width='5'/><path d='M20 24 C20 20.7 22.7 18 26 18 H32 V82 H26 C22.7 82 20 79.3 20 76 Z' fill='%2311FFAA'/><rect x='34' y='76' width='44' height='6' fill='%2394a3b8'/><path d='M44 34 H68 M44 44 H68 M44 54 H60' stroke='%2311FFAA' stroke-width='4' stroke-linecap='round'/></svg>">
   <style>
@@ -17,6 +17,9 @@
       --accent-hover: #00e699;
       --accent-text: #0f172a;
       --success: #22c55e;
+      --danger: #ef4444;
+      --secondary-btn: #334155;
+      --secondary-btn-hover: #475569;
     }
 
     * {
@@ -115,22 +118,53 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+    }
+
+    .button-group {
+      display: flex;
+      gap: 0.5rem;
+      flex-wrap: wrap;
     }
 
     button {
-      background: var(--accent);
-      color: var(--accent-text);
       border: none;
-      padding: 0.65rem 1.25rem;
+      padding: 0.65rem 1.1rem;
       border-radius: 6px;
       font-weight: 700;
-      font-size: 0.9rem;
+      font-size: 0.88rem;
       cursor: pointer;
       transition: background 0.2s, transform 0.1s;
     }
 
-    button:hover {
+    .btn-primary {
+      background: var(--accent);
+      color: var(--accent-text);
+    }
+
+    .btn-primary:hover {
       background: var(--accent-hover);
+    }
+
+    .btn-secondary {
+      background: var(--secondary-btn);
+      color: var(--text);
+    }
+
+    .btn-secondary:hover {
+      background: var(--secondary-btn-hover);
+    }
+
+    .btn-inspect {
+      background: #3b82f6;
+      color: #ffffff;
+      width: 100%;
+      margin-top: 0.5rem;
+    }
+
+    .btn-inspect:hover {
+      background: #2563eb;
     }
 
     button:active {
@@ -150,6 +184,126 @@
       resize: vertical;
       line-height: 1.6;
     }
+
+    /* Stealth Tag Meta Badge */
+    .stego-badge {
+      background: rgba(17, 255, 170, 0.1);
+      border: 1px solid var(--accent);
+      border-radius: 6px;
+      padding: 0.75rem;
+      font-size: 0.8rem;
+      color: var(--accent);
+      display: flex;
+      flex-direction: column;
+      gap: 0.25rem;
+    }
+
+    .stego-badge span {
+      font-family: ui-monospace, SFMono-Regular, monospace;
+      color: var(--text);
+      word-break: break-all;
+    }
+
+    /* Modal Overlay Styles */
+    .modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(15, 23, 42, 0.85);
+      backdrop-filter: blur(4px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 1rem;
+      z-index: 1000;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.2s ease;
+    }
+
+    .modal-overlay.active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .modal-card {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      max-width: 650px;
+      width: 100%;
+      padding: 1.75rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1.25rem;
+      box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.5);
+    }
+
+    .modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .close-btn {
+      background: transparent;
+      color: var(--muted);
+      font-size: 1.5rem;
+      padding: 0 0.5rem;
+    }
+
+    .close-btn:hover {
+      color: var(--text);
+      background: transparent;
+    }
+
+    .inspector-textarea {
+      height: 180px;
+    }
+
+    .result-box {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 1rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+      font-size: 0.88rem;
+    }
+
+    .result-status {
+      font-weight: 700;
+      font-size: 0.95rem;
+    }
+
+    .status-valid {
+      color: var(--success);
+    }
+
+    .status-invalid {
+      color: var(--danger);
+    }
+
+    .result-grid {
+      display: grid;
+      grid-template-columns: 140px 1fr;
+      gap: 0.4rem;
+      margin-top: 0.5rem;
+    }
+
+    .result-label {
+      color: var(--muted);
+      font-weight: 600;
+    }
+
+    .result-value {
+      font-family: ui-monospace, SFMono-Regular, monospace;
+      color: var(--text);
+      word-break: break-all;
+    }
   </style>
 </head>
 <body>
@@ -165,8 +319,8 @@
           <path d="M44 34 H68 M44 44 H68 M44 54 H60" stroke="#11FFAA" stroke-width="4" stroke-linecap="round"/>
         </svg>
         <div>
-          <h1>VPL Generator</h1>
-          <p class="subtitle">v1.1.3 Source-Available License Builder</p>
+          <h1>VPL Studio</h1>
+          <p class="subtitle">v1.3.0 Stealth Tag Verification Builder</p>
         </div>
       </div>
 
@@ -177,26 +331,57 @@
 
       <div class="form-group">
         <label for="holder">Copyright Holder / Author</label>
-        <input type="text" id="holder" value="Your © Holder">
+        <input type="text" id="holder" value="VicRodger27">
       </div>
 
       <div class="form-group">
         <label for="projectName">Project Name</label>
-        <input type="text" id="projectName" value="Your Project Name">
+        <input type="text" id="projectName" value="My Awesome Project">
       </div>
 
       <div class="form-group">
         <label for="projectUrl">Repository / Source Link</label>
-        <input type="text" id="projectUrl" value="https://your-link-here.com">
+        <input type="text" id="projectUrl" value="https://github.com/VicRodger27/my-project">
       </div>
+
+      <div class="stego-badge">
+        🕵️‍♂️ <strong>Active Stealth Tag Verification</strong>
+        <div>UUID: <span id="activeUuid">...</span></div>
+        <div>Timestamp: <span id="activeTs">...</span></div>
+      </div>
+
+      <button id="openInspectorBtn" class="btn-inspect">Inspect & Verify License</button>
     </div>
 
     <div class="card">
       <div class="header-actions">
-        <h2>📄 Generated VPL License</h2>
-        <button id="copyBtn">Copy License Text</button>
+        <h2>Generated VPL v1.1 License</h2>
+        <div class="button-group">
+          <button id="copyBtn" class="btn-primary">Copy Text</button>
+          <button id="downloadBtn" class="btn-secondary">Download .md</button>
+        </div>
       </div>
       <textarea id="licenseOutput" readonly></textarea>
+    </div>
+  </div>
+
+  <!-- License Inspector Modal -->
+  <div class="modal-overlay" id="inspectorModal">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h3>License Verification Inspector</h3>
+        <button class="close-btn" id="closeInspectorBtn">&times;</button>
+      </div>
+      <p class="subtitle">Paste any VPL license text below to decode embedded steganographic verification tags.</p>
+      
+      <textarea id="inspectInput" class="inspector-textarea" placeholder="Paste full LICENSE.md content here..."></textarea>
+      
+      <button id="runInspectBtn" class="btn-primary">Decode & Verify Tags</button>
+
+      <div class="result-box" id="inspectResult" style="display: none;">
+        <div id="statusHeader" class="result-status"></div>
+        <div id="resultDetails" class="result-grid"></div>
+      </div>
     </div>
   </div>
 
@@ -205,7 +390,7 @@
 
 **Classification: Source-Available / Non-Commercial Copyleft License**
 
-Copyright (©) {YEAR} {HOLDER}
+Copyright (©) {YEAR} {HOLDER}{STEGO_TAG}
 
 ## 1. Grant of Rights
 
@@ -341,9 +526,71 @@ will be reformed only to the extent necessary to make it enforceable.`;
     const projectUrlInput = document.getElementById('projectUrl');
     const licenseOutput = document.getElementById('licenseOutput');
     const copyBtn = document.getElementById('copyBtn');
+    const downloadBtn = document.getElementById('downloadBtn');
+    const activeUuidEl = document.getElementById('activeUuid');
+    const activeTsEl = document.getElementById('activeTs');
 
-    // Automatically set the year field to the current calendar year
+    // Modal elements
+    const inspectorModal = document.getElementById('inspectorModal');
+    const openInspectorBtn = document.getElementById('openInspectorBtn');
+    const closeInspectorBtn = document.getElementById('closeInspectorBtn');
+    const inspectInput = document.getElementById('inspectInput');
+    const runInspectBtn = document.getElementById('runInspectBtn');
+    const inspectResult = document.getElementById('inspectResult');
+    const statusHeader = document.getElementById('statusHeader');
+    const resultDetails = document.getElementById('resultDetails');
+
+    // Persistent runtime signature state
+    let currentUuid = crypto.randomUUID();
+    let currentTimestampStr = generate14DigitTimestamp();
+
+    // Auto-fill year field to current calendar year
     yearInput.value = new Date().getFullYear();
+
+    // Format timestamp as HHMMSSDDMMYYYY
+    function generate14DigitTimestamp() {
+      const now = new Date();
+      const hh = String(now.getHours()).padStart(2, '0');
+      const mm = String(now.getMinutes()).padStart(2, '0');
+      const ss = String(now.getSeconds()).padStart(2, '0');
+      const dd = String(now.getDate()).padStart(2, '0');
+      const mon = String(now.getMonth() + 1).padStart(2, '0');
+      const yyyy = String(now.getFullYear());
+      return `${hh}${mm}${ss}${dd}${mon}${yyyy}`;
+    }
+
+    // Convert 14-digit HHMMSSDDMMYYYY string into human-readable format
+    function parse14DigitTimestamp(ts) {
+      if (!ts || ts.length !== 14) return ts;
+      const hh = ts.substring(0, 2);
+      const mm = ts.substring(2, 4);
+      const ss = ts.substring(4, 6);
+      const dd = ts.substring(6, 8);
+      const mon = ts.substring(8, 10);
+      const yyyy = ts.substring(10, 14);
+      return `${hh}:${mm}:${ss} on ${dd}/${mon}/${yyyy}`;
+    }
+
+    // Encode ASCII payload into Unicode Tag Characters (Plane 14)
+    function encodeStegoPayload(payload) {
+      let tagStr = '\u{E0001}'; // Language tag header
+      for (let i = 0; i < payload.length; i++) {
+        tagStr += String.fromCodePoint(0xE0000 + payload.charCodeAt(i));
+      }
+      return tagStr;
+    }
+
+    // Extract and decode Unicode Tag sequence back to string payload
+    function decodeStegoPayload(text) {
+      const codePoints = Array.from(text).map(ch => ch.codePointAt(0));
+      let payload = '';
+      for (const cp of codePoints) {
+        if (cp >= 0xE0020 && cp <= 0xE007F) {
+          payload += String.fromCharCode(cp - 0xE0000);
+        }
+      }
+      return payload;
+    }
 
     function updateLicense() {
       const year = yearInput.value || '[YEAR]';
@@ -351,19 +598,34 @@ will be reformed only to the extent necessary to make it enforceable.`;
       const projectName = projectNameInput.value || '[PROJECT NAME]';
       const projectUrl = projectUrlInput.value || '[PROJECT URL]';
 
+      // Update badge UI
+      activeUuidEl.textContent = currentUuid;
+      activeTsEl.textContent = parse14DigitTimestamp(currentTimestampStr);
+
+      // Raw steganography payload string
+      const stegoPayloadStr = `VPL|${currentUuid}|${currentTimestampStr}|${holder}|${year}|${projectName}`;
+      const invisibleTag = encodeStegoPayload(stegoPayloadStr);
+
       let text = licenseTemplate
         .replace(/{YEAR}/g, year)
         .replace(/{HOLDER}/g, holder)
         .replace(/{PROJECT_NAME}/g, projectName)
-        .replace(/{PROJECT_URL}/g, projectUrl);
+        .replace(/{PROJECT_URL}/g, projectUrl)
+        .replace(/{STEGO_TAG}/g, invisibleTag);
 
       licenseOutput.value = text;
     }
 
     [yearInput, holderInput, projectNameInput, projectUrlInput].forEach(input => {
-      input.addEventListener('input', updateLicense);
+      input.addEventListener('input', () => {
+        // Refresh UUID and Timestamp on input modifications
+        currentUuid = crypto.randomUUID();
+        currentTimestampStr = generate14DigitTimestamp();
+        updateLicense();
+      });
     });
 
+    // Copy to Clipboard
     copyBtn.addEventListener('click', async () => {
       try {
         await navigator.clipboard.writeText(licenseOutput.value);
@@ -381,7 +643,85 @@ will be reformed only to the extent necessary to make it enforceable.`;
       }
     });
 
-    // Initial render
+    // Download .md File
+    downloadBtn.addEventListener('click', () => {
+      const text = licenseOutput.value;
+      const blob = new Blob([text], { type: 'text/markdown;charset=utf-8;' });
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = url;
+      link.setAttribute('download', 'LICENSE.md');
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      URL.revokeObjectURL(url);
+
+      const originalText = downloadBtn.textContent;
+      downloadBtn.textContent = 'Saved!';
+      downloadBtn.style.background = 'var(--success)';
+      downloadBtn.style.color = '#ffffff';
+      setTimeout(() => {
+        downloadBtn.textContent = originalText;
+        downloadBtn.style.background = 'var(--secondary-btn)';
+        downloadBtn.style.color = 'var(--text)';
+      }, 2000);
+    });
+
+    // Modal Control
+    openInspectorBtn.addEventListener('click', () => {
+      inspectorModal.classList.add('active');
+    });
+
+    closeInspectorBtn.addEventListener('click', () => {
+      inspectorModal.classList.remove('active');
+    });
+
+    inspectorModal.addEventListener('click', (e) => {
+      if (e.target === inspectorModal) inspectorModal.classList.remove('active');
+    });
+
+    // Decode & Verify License Tag Action
+    runInspectBtn.addEventListener('click', () => {
+      const textToInspect = inspectInput.value;
+      const decodedStr = decodeStegoPayload(textToInspect);
+
+      inspectResult.style.display = 'flex';
+
+      if (decodedStr && decodedStr.startsWith('VPL|')) {
+        const parts = decodedStr.split('|');
+        const uuid = parts[1] || 'N/A';
+        const rawTs = parts[2] || '';
+        const holder = parts[3] || 'N/A';
+        const year = parts[4] || 'N/A';
+        const project = parts[5] || 'N/A';
+
+        statusHeader.textContent = '🟢 Authentic VPL License Tag Detected!';
+        statusHeader.className = 'result-status status-valid';
+
+        resultDetails.innerHTML = `
+          <div class="result-label">UUID Serial:</div>
+          <div class="result-value">${uuid}</div>
+          <div class="result-label">Minted Time:</div>
+          <div class="result-value">${parse14DigitTimestamp(rawTs)}</div>
+          <div class="result-label">Claimed Author:</div>
+          <div class="result-value">${holder}</div>
+          <div class="result-label">Copyright Year:</div>
+          <div class="result-value">${year}</div>
+          <div class="result-label">Project Name:</div>
+          <div class="result-value">${project}</div>
+        `;
+      } else {
+        statusHeader.textContent = '🔴 No Valid Steganographic VPL Tag Found';
+        statusHeader.className = 'result-status status-invalid';
+        resultDetails.innerHTML = `
+          <div class="result-label" style="grid-column: span 2;">
+            The pasted text does not contain an authentic VPL Plane 14 verification tag, or it may have been stripped during plain text conversions.
+          </div>
+        `;
+      }
+    });
+
+    // Initial load render
     updateLicense();
   </script>
 </body>
