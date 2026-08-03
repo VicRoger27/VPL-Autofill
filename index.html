@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Vopple Public License (VPL) v1.6.0 Studio</title>
+  <title>Vopple Public License (VPL) v1.7.0 Studio</title>
   <!-- Embedded SVG Thick Book Favicon in #11FFAA Neon -->
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='24' fill='%230f172a'/><rect x='30' y='18' width='50' height='64' rx='6' fill='%231e293b' stroke='%2311FFAA' stroke-width='5'/><path d='M20 24 C20 20.7 22.7 18 26 18 H32 V82 H26 C22.7 82 20 79.3 20 76 Z' fill='%2311FFAA'/><rect x='34' y='76' width='44' height='6' fill='%2394a3b8'/><path d='M44 34 H68 M44 44 H68 M44 54 H60' stroke='%2311FFAA' stroke-width='4' stroke-linecap='round'/></svg>">
   <style>
@@ -122,6 +122,32 @@
       gap: 0.75rem;
     }
 
+    .view-toggle-group {
+      display: flex;
+      background: var(--bg);
+      padding: 3px;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+    }
+
+    .toggle-btn {
+      border: none;
+      background: transparent;
+      color: var(--muted);
+      padding: 0.4rem 0.8rem;
+      font-size: 0.8rem;
+      font-weight: 600;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .toggle-btn.active {
+      background: var(--panel);
+      color: var(--accent);
+      box-shadow: 0 1px 3px rgba(0,0,0,0.3);
+    }
+
     button {
       border: none;
       padding: 0.65rem 1.1rem;
@@ -177,6 +203,71 @@
       padding: 1.25rem;
       resize: vertical;
       line-height: 1.6;
+    }
+
+    /* GitHub-Style Rendered Markdown Body */
+    .markdown-body {
+      width: 100%;
+      height: 680px;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      color: #e2e8f0;
+      padding: 1.5rem;
+      overflow-y: auto;
+      font-size: 0.92rem;
+      line-height: 1.65;
+    }
+
+    .markdown-body h1 {
+      font-size: 1.6rem;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 0.4rem;
+      margin-bottom: 1rem;
+      color: var(--text);
+    }
+
+    .markdown-body h2 {
+      font-size: 1.25rem;
+      border-bottom: 1px solid rgba(51, 65, 85, 0.5);
+      padding-bottom: 0.3rem;
+      margin-top: 1.5rem;
+      margin-bottom: 0.75rem;
+      color: var(--text);
+    }
+
+    .markdown-body h3 {
+      font-size: 1.05rem;
+      margin-top: 1.2rem;
+      margin-bottom: 0.5rem;
+      color: var(--accent);
+    }
+
+    .markdown-body p {
+      margin-bottom: 0.85rem;
+    }
+
+    .markdown-body ul {
+      margin-left: 1.5rem;
+      margin-bottom: 0.85rem;
+    }
+
+    .markdown-body li {
+      margin-bottom: 0.25rem;
+    }
+
+    .markdown-body strong {
+      color: #ffffff;
+    }
+
+    .markdown-body em {
+      color: var(--muted);
+      font-style: italic;
+    }
+
+    .markdown-body a {
+      color: var(--accent);
+      text-decoration: underline;
     }
 
     /* Modal Overlay Styles */
@@ -309,7 +400,7 @@
       </div>
 
       <div class="form-group">
-        <label for="year">Copyright Year</label>
+        <label for="year">Year of Copyright</label>
         <input type="text" id="year">
       </div>
 
@@ -335,13 +426,24 @@
       </div>
     </div>
 
-    <!-- Live Preview Card & Verification Trigger -->
+    <!-- Live Preview Card & View Controls -->
     <div class="card">
       <div class="header-actions">
-        <h2>Generated VPL v1.1 License</h2>
+        <div style="display: flex; align-items: center; gap: 1rem;">
+          <h2>License Preview</h2>
+          <div class="view-toggle-group">
+            <button id="toggleRawBtn" class="toggle-btn active">Raw Markdown</button>
+            <button id="toggleRenderedBtn" class="toggle-btn">Processed Markdown</button>
+          </div>
+        </div>
         <button id="openInspectorBtn" class="btn-inspect">Inspect & Verify License</button>
       </div>
+
+      <!-- Raw Markdown Output -->
       <textarea id="licenseOutput" readonly></textarea>
+
+      <!-- Rendered HTML Output -->
+      <div id="renderedOutput" class="markdown-body" style="display: none;"></div>
     </div>
   </div>
 
@@ -505,8 +607,13 @@ will be reformed only to the extent necessary to make it enforceable.`;
     const projectNameInput = document.getElementById('projectName');
     const projectUrlInput = document.getElementById('projectUrl');
     const licenseOutput = document.getElementById('licenseOutput');
+    const renderedOutput = document.getElementById('renderedOutput');
     const copyBtn = document.getElementById('copyBtn');
     const downloadBtn = document.getElementById('downloadBtn');
+
+    // View toggle controls
+    const toggleRawBtn = document.getElementById('toggleRawBtn');
+    const toggleRenderedBtn = document.getElementById('toggleRenderedBtn');
 
     // Modal elements
     const inspectorModal = document.getElementById('inspectorModal');
@@ -551,7 +658,7 @@ will be reformed only to the extent necessary to make it enforceable.`;
 
     // Encode ASCII payload into Unicode Tag Characters (Plane 14)
     function encodeStegoPayload(payload) {
-      let tagStr = '\u{E0001}'; // Language tag header
+      let tagStr = '\u{E0001}';
       for (let i = 0; i < payload.length; i++) {
         tagStr += String.fromCodePoint(0xE0000 + payload.charCodeAt(i));
       }
@@ -573,34 +680,99 @@ will be reformed only to the extent necessary to make it enforceable.`;
     // Pre-calculated hidden magic header string prepended at character index 0
     const INVISIBLE_MAGIC_HEADER = encodeStegoPayload('VPL_HDR');
 
+    // Lightweight Client-Side Markdown Parser
+    function renderMarkdownToHTML(markdownText) {
+      let html = markdownText;
+
+      // Remove plane 14 steganographic tags from HTML rendering view
+      html = html.replace(/[\u{E0000}-\u{E007F}]/gu, '');
+
+      // Headings
+      html = html.replace(/^### (.*$)/gim, '<h3>$1</h3>');
+      html = html.replace(/^## (.*$)/gim, '<h2>$1</h2>');
+      html = html.replace(/^# (.*$)/gim, '<h1>$1</h1>');
+
+      // Bold & Italics
+      html = html.replace(/\*\*(.*?)\*\*/gim, '<strong>$1</strong>');
+      html = html.replace(/\*(.*?)\*/gim, '<em>$1</em>');
+
+      // Links
+      html = html.replace(/\[(.*?)\]\((.*?)\)/gim, '<a href="$2" target="_blank">$1</a>');
+
+      // Bullet lists
+      html = html.replace(/^\- (.*$)/gim, '<li>$1</li>');
+
+      // Paragraph linebreaks
+      const lines = html.split('\n');
+      let result = '';
+      let inList = false;
+
+      for (let line of lines) {
+        if (line.startsWith('<li>')) {
+          if (!inList) {
+            result += '<ul>';
+            inList = true;
+          }
+          result += line;
+        } else {
+          if (inList) {
+            result += '</ul>';
+            inList = false;
+          }
+          if (line.trim().length > 0 && !line.startsWith('<h')) {
+            result += `<p>${line}</p>`;
+          } else {
+            result += line;
+          }
+        }
+      }
+
+      if (inList) result += '</ul>';
+      return result;
+    }
+
     function updateLicense() {
       const year = yearInput.value || '[YEAR]';
       const holder = holderInput.value || '[COPYRIGHT HOLDER]';
       const projectName = projectNameInput.value || '[PROJECT NAME]';
       const projectUrl = projectUrlInput.value || '[PROJECT URL]';
 
-      // Raw steganography payload string generated quietly in background
       const stegoPayloadStr = `VPL|${currentUuid}|${currentTimestampStr}|${holder}|${year}|${projectName}`;
       const invisibleTag = encodeStegoPayload(stegoPayloadStr);
 
-      let text = licenseTemplate
+      let rawMarkdown = licenseTemplate
         .replace(/{YEAR}/g, year)
         .replace(/{HOLDER}/g, holder)
         .replace(/{PROJECT_NAME}/g, projectName)
         .replace(/{PROJECT_URL}/g, projectUrl)
         .replace(/{STEGO_TAG}/g, invisibleTag);
 
-      // Prepend invisible magic header right at index 0 of document
-      licenseOutput.value = INVISIBLE_MAGIC_HEADER + text;
+      const fullOutput = INVISIBLE_MAGIC_HEADER + rawMarkdown;
+      licenseOutput.value = fullOutput;
+      renderedOutput.innerHTML = renderMarkdownToHTML(rawMarkdown);
     }
 
     [yearInput, holderInput, projectNameInput, projectUrlInput].forEach(input => {
       input.addEventListener('input', () => {
-        // Refresh UUID and Timestamp on input modifications
         currentUuid = crypto.randomUUID();
         currentTimestampStr = generate14DigitTimestamp();
         updateLicense();
       });
+    });
+
+    // Toggle Raw vs Rendered View Mode
+    toggleRawBtn.addEventListener('click', () => {
+      toggleRawBtn.classList.add('active');
+      toggleRenderedBtn.classList.remove('active');
+      licenseOutput.style.display = 'block';
+      renderedOutput.style.display = 'none';
+    });
+
+    toggleRenderedBtn.addEventListener('click', () => {
+      toggleRenderedBtn.classList.add('active');
+      toggleRawBtn.classList.remove('active');
+      licenseOutput.style.display = 'none';
+      renderedOutput.style.display = 'block';
     });
 
     // Download .md File
@@ -663,7 +835,7 @@ will be reformed only to the extent necessary to make it enforceable.`;
       const textToInspect = inspectInput.value;
       inspectResult.style.display = 'flex';
 
-      // 1. FAST-PATH PRE-CHECK: Inspect only first 150 chars for invisible magic header
+      // 1. FAST-PATH PRE-CHECK
       const headSnippet = textToInspect.substring(0, 150);
       const headDecoded = decodeStegoPayload(headSnippet);
 
@@ -678,7 +850,7 @@ will be reformed only to the extent necessary to make it enforceable.`;
         return;
       }
 
-      // 2. FULL PAYLOAD DECODE: Proceed to parse metadata payload
+      // 2. FULL PAYLOAD DECODE
       const decodedStr = decodeStegoPayload(textToInspect);
 
       if (decodedStr && decodedStr.includes('VPL|')) {
