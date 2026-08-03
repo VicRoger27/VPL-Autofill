@@ -3,7 +3,9 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Vopple Public License (VPL) v1.0 Generator</title>
+  <title>Vopple Public License (VPL) v1.1.2 Generator</title>
+  <!-- Embedded SVG Thick Book Favicon in #11FFAA Neon -->
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='24' fill='%230f172a'/><rect x='30' y='18' width='50' height='64' rx='6' fill='%231e293b' stroke='%2311FFAA' stroke-width='5'/><path d='M20 24 C20 20.7 22.7 18 26 18 H32 V82 H26 C22.7 82 20 79.3 20 76 Z' fill='%2311FFAA'/><rect x='34' y='76' width='44' height='6' fill='%2394a3b8'/><path d='M44 34 H68 M44 44 H68 M44 54 H60' stroke='%2311FFAA' stroke-width='4' stroke-linecap='round'/></svg>">
   <style>
     :root {
       --bg: #0f172a;
@@ -55,16 +57,27 @@
       gap: 1.25rem;
     }
 
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .brand-icon {
+      width: 38px;
+      height: 38px;
+    }
+
     h1 {
-      font-size: 1.5rem;
+      font-size: 1.4rem;
       font-weight: 700;
       color: var(--text);
     }
 
     .subtitle {
       color: var(--muted);
-      font-size: 0.9rem;
-      margin-top: -0.5rem;
+      font-size: 0.85rem;
+      margin-top: -0.25rem;
     }
 
     .form-group {
@@ -89,7 +102,7 @@
       border-radius: 6px;
       color: var(--text);
       font-size: 0.95rem;
-      transition: border-color 0.2s;
+      transition: border-color 0.2s, box-shadow 0.2s;
     }
 
     input:focus {
@@ -126,7 +139,7 @@
 
     textarea {
       width: 100%;
-      height: 650px;
+      height: 680px;
       background: var(--bg);
       border: 1px solid var(--border);
       border-radius: 8px;
@@ -143,9 +156,18 @@
 
   <div class="container">
     <div class="card">
-      <div>
-        <h1>⚡ VPL Generator</h1>
-        <p class="subtitle">Custom License Builder</p>
+      <div class="brand">
+        <svg class="brand-icon" viewBox="0 0 100 100">
+          <rect width="100" height="100" rx="24" fill="#0f172a"/>
+          <rect x="30" y="18" width="50" height="64" rx="6" fill="#1e293b" stroke="#11FFAA" stroke-width="5"/>
+          <path d="M20 24 C20 20.7 22.7 18 26 18 H32 V82 H26 C22.7 82 20 79.3 20 76 Z" fill="#11FFAA"/>
+          <rect x="34" y="76" width="44" height="6" fill="#94a3b8"/>
+          <path d="M44 34 H68 M44 44 H68 M44 54 H60" stroke="#11FFAA" stroke-width="4" stroke-linecap="round"/>
+        </svg>
+        <div>
+          <h1>📖 VPL Generator</h1>
+          <p class="subtitle">v1.1.2 Source-Available License Builder</p>
+        </div>
       </div>
 
       <div class="form-group">
@@ -171,7 +193,7 @@
 
     <div class="card">
       <div class="header-actions">
-        <h2>📄 Generated License</h2>
+        <h2>📄 Generated VPL v1.1 License</h2>
         <button id="copyBtn">📋 Copy License Text</button>
       </div>
       <textarea id="licenseOutput" readonly></textarea>
@@ -179,7 +201,9 @@
   </div>
 
   <script>
-    const licenseTemplate = `# Vopple Public License (VPL) v1.0
+    const licenseTemplate = `# Vopple Public License (VPL) v1.1
+
+**Classification: Source-Available / Non-Commercial Copyleft License**
 
 Copyright (©) {YEAR} {HOLDER}
 
@@ -201,25 +225,27 @@ in accordance with the conditions below.
 Any use, modification, or distribution of the Software is conditioned on
 all of the following:
 
-### 2.1 No Private Use / Public Disclosure Required
+### 2.1 Public Disclosure Required & Network Binding
 
 You may **not** use, run, modify, or deploy the Software, or any
-derivative work based on it, privately or internally. Any use of the
-Software beyond simply reading its source code requires that your
-copy — including any modifications — be made publicly available, either:
+derivative work based on it, privately or internally in production. Any
+deployment of the Software — including making its functionality accessible to
+third parties over a computer network (SaaS) — requires that your copy,
+including any modifications, be made publicly available, either:
 
 - as a **public fork** of the original repository ({PROJECT_URL}), or
 - as a **pull/merge request** submitted back to {PROJECT_NAME} ({PROJECT_URL}).
 
-Private forks, internal deployments, or closed derivative works are not
-permitted under this License.
+*Safe Harbor Exemption:* Ephemeral, non-production local execution strictly
+for private testing, bug fixing, or preparing a public pull/merge request is
+permitted.
 
 ### 2.2 Complete Source Disclosure
 
-Any distribution of the Software or a derivative work must include the
-**complete corresponding source code**, including all modifications,
-in a form suitable for further modification. Providing only compiled,
-minified, obfuscated, or partial source does not satisfy this condition.
+Any distribution or network deployment of the Software or a derivative work
+must include or link to the **complete corresponding source code**, including
+all modifications, in a form suitable for further modification. Providing only
+compiled, minified, obfuscated, or partial source does not satisfy this condition.
 
 ### 2.3 Statement of Changes
 
@@ -270,15 +296,13 @@ Software, selling access to it, using it to provide a paid product or
 service, or using it internally within a for-profit commercial
 operation. No exceptions apply.
 
-### 2.8 No Patent Rights Granted
+### 2.8 No Patent Rights & Defensive Termination
 
-This License does **not** grant, and shall not be construed as
-granting, any express or implied license or right under any patent
-claim, whether or not such patent is owned or controllable by the
-copyright holder or any contributor. Nothing in this License shall be
-interpreted as a patent grant, patent peace covenant, or patent
-non-assertion. Anyone wishing to exercise any patent rights related to
-the Software must obtain them separately.
+This License does **not** grant any express or implied patent rights.
+Furthermore, if you or your affiliate institute patent litigation or
+assertion against the copyright holder or any contributor alleging that the
+Software or any portion thereof infringes any patent, all rights granted to you
+under this License shall terminate automatically as of the date such litigation is filed.
 
 ## 3. Disclaimer of Warranty
 
@@ -296,12 +320,14 @@ CONTRACT, TORT, OR OTHERWISE, ARISING FROM, OUT OF, OR IN CONNECTION
 WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE, EVEN IF
 ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-## 5. Termination
+## 5. Termination & 30-Day Cure Period
 
 Any violation of the conditions in Section 2 automatically terminates
-your rights under this License. Rights terminated this way are not
-reinstated automatically, even after the violation is corrected, unless
-the copyright holder explicitly restores them in writing.
+your rights under this License. However, if all violations cease, your
+license is reinstated provisionally until 30 days after receiving written
+notice of violation from the copyright holder. If you cure the violation
+within those 30 days, your license is permanently reinstated. Repeated
+or willful violations shall not qualify for automatic reinstatement.
 
 ## 6. Severability
 
