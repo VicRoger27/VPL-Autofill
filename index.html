@@ -28,20 +28,29 @@
       padding: 0;
     }
 
+    html, body {
+      height: 100%;
+    }
+
     body {
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
       background-color: var(--bg);
       color: var(--text);
-      padding: 2rem;
+      padding: 1.5rem;
       line-height: 1.5;
+      display: flex;
+      flex-direction: column;
     }
 
     .container {
-      max-width: 1200px;
+      max-width: 1400px;
+      width: 100%;
       margin: 0 auto;
       display: grid;
       grid-template-columns: 360px 1fr;
-      gap: 2rem;
+      gap: 1.5rem;
+      flex: 1;
+      align-items: stretch;
     }
 
     @media (max-width: 868px) {
@@ -58,6 +67,7 @@
       display: flex;
       flex-direction: column;
       gap: 1.25rem;
+      height: 100%;
     }
 
     .brand {
@@ -191,9 +201,10 @@
       transform: scale(0.98);
     }
 
-    textarea {
+    textarea#licenseOutput {
       width: 100%;
-      height: 680px;
+      flex: 1;
+      min-height: 400px;
       background: var(--bg);
       border: 1px solid var(--border);
       border-radius: 8px;
@@ -201,14 +212,15 @@
       font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
       font-size: 0.88rem;
       padding: 1.25rem;
-      resize: vertical;
+      resize: none;
       line-height: 1.6;
     }
 
     /* GitHub-Style Rendered Markdown Body */
     .markdown-body {
       width: 100%;
-      height: 680px;
+      flex: 1;
+      min-height: 400px;
       background: var(--bg);
       border: 1px solid var(--border);
       border-radius: 8px;
@@ -342,10 +354,18 @@
 
     .inspector-textarea {
       height: 180px;
+      width: 100%;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      color: #e2e8f0;
+      font-family: ui-monospace, SFMono-Regular, monospace;
+      font-size: 0.88rem;
+      padding: 1rem;
+      resize: vertical;
       transition: border-color 0.2s, box-shadow 0.2s, background-color 0.2s;
     }
 
-    /* Drag and Drop Hover Visual State */
     .inspector-textarea.drag-over {
       border: 2px dashed var(--accent);
       background: #0f172a;
@@ -435,7 +455,7 @@
       </div>
 
       <!-- Action Buttons directly beneath inputs -->
-      <div style="display: flex; flex-direction: column; gap: 0.5rem; margin-top: 0.5rem;">
+      <div style="display: flex; flex-direction: column; gap: 0.5rem; margin-top: auto;">
         <button id="downloadBtn" class="btn-primary">Download .md File</button>
         <button id="copyBtn" class="btn-secondary">Copy Text</button>
       </div>
@@ -531,7 +551,7 @@ must include or link to the **complete corresponding source code**, including
 all modifications, in a form suitable for further modification. Providing only
 compiled, minified, obfuscated, or partial source does not satisfy this condition.
 
- #### This can be disclosed with : \`\`\`Remix of {HOLDER}'s {PROJECT_NAME}, which can be found at {PROJECT_URL}.\`\`\`
+ #### This can be disclosed with : \\\`\\\`\\\`Remix of {HOLDER}'s {PROJECT_NAME}, which can be found at {PROJECT_URL}.\\\`\\\`\\\`
 
 ### 2.3 Statement of Changes
 
