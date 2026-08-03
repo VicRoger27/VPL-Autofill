@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Vopple Public License (VPL) v1.0 Generator</title>
+  <style>
+    :root {
+      --bg: #0f172a;
+      --panel: #1e293b;
+      --border: #334155;
+      --text: #f8fafc;
+      --muted: #94a3b8;
+      --accent: #6366f1;
+      --accent-hover: #4f46e5;
+      --success: #22c55e;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      background-color: var(--bg);
+      color: var(--text);
+      padding: 2rem;
+      line-height: 1.5;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 360px 1fr;
+      gap: 2rem;
+    }
+
+    @media (max-width: 868px) {
+      .container {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .card {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 1.5rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1.25rem;
+    }
+
+    h1 {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--text);
+    }
+
+    .subtitle {
+      color: var(--muted);
+      font-size: 0.9rem;
+      margin-top: -0.5rem;
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 0.4rem;
+    }
+
+    label {
+      font-size: 0.8rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--muted);
+    }
+
+    input {
+      width: 100%;
+      padding: 0.75rem;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      color: var(--text);
+      font-size: 0.95rem;
+      transition: border-color 0.2s;
+    }
+
+    input:focus {
+      outline: none;
+      border-color: var(--accent);
+    }
+
+    .header-actions {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    button {
+      background: var(--accent);
+      color: white;
+      border: none;
+      padding: 0.65rem 1.25rem;
+      border-radius: 6px;
+      font-weight: 600;
+      font-size: 0.9rem;
+      cursor: pointer;
+      transition: background 0.2s, transform 0.1s;
+    }
+
+    button:hover {
+      background: var(--accent-hover);
+    }
+
+    button:active {
+      transform: scale(0.98);
+    }
+
+    textarea {
+      width: 100%;
+      height: 650px;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      color: #e2e8f0;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+      font-size: 0.88rem;
+      padding: 1.25rem;
+      resize: vertical;
+      line-height: 1.6;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <div class="card">
+      <div>
+        <h1>⚡ VPL Generator</h1>
+        <p class="subtitle">Custom License Builder</p>
+      </div>
+
+      <div class="form-group">
+        <label for="year">Copyright Year</label>
+        <input type="text" id="year" value="2026">
+      </div>
+
+      <div class="form-group">
+        <label for="holder">Copyright Holder / Author</label>
+        <input type="text" id="holder" value="VicRodger27">
+      </div>
+
+      <div class="form-group">
+        <label for="projectName">Project Name</label>
+        <input type="text" id="projectName" value="My Awesome Project">
+      </div>
+
+      <div class="form-group">
+        <label for="projectUrl">Repository / Source Link</label>
+        <input type="text" id="projectUrl" value="https://github.com/VicRodger27/my-project">
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="header-actions">
+        <h2>📄 Generated License</h2>
+        <button id="copyBtn">📋 Copy License Text</button>
+      </div>
+      <textarea id="licenseOutput" readonly></textarea>
+    </div>
+  </div>
+
+  <script>
+    const licenseTemplate = `# Vopple Public License (VPL) v1.0
+
+Copyright (©) {YEAR} {HOLDER}
+
+## 1. Grant of Rights
+
+Subject to the terms and conditions of this License, the copyright holder
+grants any person obtaining a copy of this software and associated
+documentation files (the "Software") a worldwide, royalty-free,
+non-exclusive license to:
+
+- **Use** the Software;
+- **Modify** the Software;
+- **Distribute** the Software and modified versions of it;
+
+in accordance with the conditions below.
+
+## 2. Conditions
+
+Any use, modification, or distribution of the Software is conditioned on
+all of the following:
+
+### 2.1 No Private Use / Public Disclosure Required
+
+You may **not** use, run, modify, or deploy the Software, or any
+derivative work based on it, privately or internally. Any use of the
+Software beyond simply reading its source code requires that your
+copy — including any modifications — be made publicly available, either:
+
+- as a **public fork** of the original repository ({PROJECT_URL}), or
+- as a **pull/merge request** submitted back to {PROJECT_NAME} ({PROJECT_URL}).
+
+Private forks, internal deployments, or closed derivative works are not
+permitted under this License.
+
+### 2.2 Complete Source Disclosure
+
+Any distribution of the Software or a derivative work must include the
+**complete corresponding source code**, including all modifications,
+in a form suitable for further modification. Providing only compiled,
+minified, obfuscated, or partial source does not satisfy this condition.
+
+### 2.3 Statement of Changes
+
+Any modified version must carry a prominent statement identifying:
+
+- that the file/work has been changed;
+- the date of the change; and
+- a summary of what was changed.
+
+### 2.4 Same License Required
+
+Any derivative work, modified version, or redistribution — in whole or
+in part — must be licensed in its entirety under **this same License**,
+with this same set of conditions and this same copyright notice
+preserved. You may not add further restrictions, nor relax any of the
+conditions in this License, when redistributing.
+
+### 2.5 Copyright and License Notice Retained
+
+All copies or substantial portions of the Software must retain the
+above copyright notice, this list of conditions, and the following
+disclaimers, unaltered.
+
+### 2.6 Attribution to Original Author
+
+In addition to retaining the copyright notice under Section 2.5, any
+distribution, fork, modified version, or derivative work must include
+clear and reasonably prominent attribution to the original author(s) of
+the Software, identifying:
+
+- the name of the original author(s) or copyright holder ({HOLDER}), as stated in
+  the copyright notice above; and
+- the name of the original project ({PROJECT_NAME}) and, where practicable, a link or
+  reference to its original source location ({PROJECT_URL}).
+
+This attribution must appear in a location reasonably likely to be
+seen by users or recipients of the derivative work (for example, in the
+project's README, "About" section, credits, or comparable
+documentation), and must not be removed, obscured, or misrepresented,
+including by implying that the original author endorses or is
+affiliated with the derivative work.
+
+### 2.7 No Commercial Use
+
+The Software may **not** be used, in whole or in part, for any
+**commercial purpose**, including but not limited to selling the
+Software, selling access to it, using it to provide a paid product or
+service, or using it internally within a for-profit commercial
+operation. No exceptions apply.
+
+### 2.8 No Patent Rights Granted
+
+This License does **not** grant, and shall not be construed as
+granting, any express or implied license or right under any patent
+claim, whether or not such patent is owned or controllable by the
+copyright holder or any contributor. Nothing in this License shall be
+interpreted as a patent grant, patent peace covenant, or patent
+non-assertion. Anyone wishing to exercise any patent rights related to
+the Software must obtain them separately.
+
+## 3. Disclaimer of Warranty
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, TITLE, AND
+NON-INFRINGEMENT. THE COPYRIGHT HOLDER MAKES NO REPRESENTATION THAT THE
+SOFTWARE IS ERROR-FREE, SECURE, OR FIT FOR ANY PARTICULAR USE.
+
+## 4. Limitation of Liability
+
+IN NO EVENT SHALL THE COPYRIGHT HOLDER OR ANY CONTRIBUTOR BE LIABLE FOR
+ANY CLAIM, DAMAGES, OR OTHER LIABILITY, WHETHER IN AN ACTION OF
+CONTRACT, TORT, OR OTHERWISE, ARISING FROM, OUT OF, OR IN CONNECTION
+WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE, EVEN IF
+ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+## 5. Termination
+
+Any violation of the conditions in Section 2 automatically terminates
+your rights under this License. Rights terminated this way are not
+reinstated automatically, even after the violation is corrected, unless
+the copyright holder explicitly restores them in writing.
+
+## 6. Severability
+
+If any provision of this License is held unenforceable, the remaining
+provisions will remain in full force, and the unenforceable provision
+will be reformed only to the extent necessary to make it enforceable.`;
+
+    const yearInput = document.getElementById('year');
+    const holderInput = document.getElementById('holder');
+    const projectNameInput = document.getElementById('projectName');
+    const projectUrlInput = document.getElementById('projectUrl');
+    const licenseOutput = document.getElementById('licenseOutput');
+    const copyBtn = document.getElementById('copyBtn');
+
+    function updateLicense() {
+      const year = yearInput.value || '[YEAR]';
+      const holder = holderInput.value || '[COPYRIGHT HOLDER]';
+      const projectName = projectNameInput.value || '[PROJECT NAME]';
+      const projectUrl = projectUrlInput.value || '[PROJECT URL]';
+
+      let text = licenseTemplate
+        .replace(/{YEAR}/g, year)
+        .replace(/{HOLDER}/g, holder)
+        .replace(/{PROJECT_NAME}/g, projectName)
+        .replace(/{PROJECT_URL}/g, projectUrl);
+
+      licenseOutput.value = text;
+    }
+
+    [yearInput, holderInput, projectNameInput, projectUrlInput].forEach(input => {
+      input.addEventListener('input', updateLicense);
+    });
+
+    copyBtn.addEventListener('click', async () => {
+      try {
+        await navigator.clipboard.writeText(licenseOutput.value);
+        const originalText = copyBtn.textContent;
+        copyBtn.textContent = '✅ Copied!';
+        copyBtn.style.background = 'var(--success)';
+        setTimeout(() => {
+          copyBtn.textContent = originalText;
+          copyBtn.style.background = 'var(--accent)';
+        }, 2000);
+      } catch (err) {
+        alert('Failed to copy text. Please select all and copy manually.');
+      }
+    });
+
+    // Initial render
+    updateLicense();
+  </script>
+</body>
+</html>
