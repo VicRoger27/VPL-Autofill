@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Vopple Public License (VPL) v1.3.0 Studio</title>
+  <title>Vopple Public License (VPL) v1.3.2 Studio</title>
   <!-- Embedded SVG Thick Book Favicon in #11FFAA Neon -->
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='24' fill='%230f172a'/><rect x='30' y='18' width='50' height='64' rx='6' fill='%231e293b' stroke='%2311FFAA' stroke-width='5'/><path d='M20 24 C20 20.7 22.7 18 26 18 H32 V82 H26 C22.7 82 20 79.3 20 76 Z' fill='%2311FFAA'/><rect x='34' y='76' width='44' height='6' fill='%2394a3b8'/><path d='M44 34 H68 M44 44 H68 M44 54 H60' stroke='%2311FFAA' stroke-width='4' stroke-linecap='round'/></svg>">
   <style>
@@ -185,25 +185,6 @@
       line-height: 1.6;
     }
 
-    /* Stealth Tag Meta Badge */
-    .stego-badge {
-      background: rgba(17, 255, 170, 0.1);
-      border: 1px solid var(--accent);
-      border-radius: 6px;
-      padding: 0.75rem;
-      font-size: 0.8rem;
-      color: var(--accent);
-      display: flex;
-      flex-direction: column;
-      gap: 0.25rem;
-    }
-
-    .stego-badge span {
-      font-family: ui-monospace, SFMono-Regular, monospace;
-      color: var(--text);
-      word-break: break-all;
-    }
-
     /* Modal Overlay Styles */
     .modal-overlay {
       position: fixed;
@@ -320,7 +301,7 @@
         </svg>
         <div>
           <h1>VPL Studio</h1>
-          <p class="subtitle">v1.3.0 Stealth Tag Verification Builder</p>
+          <p class="subtitle">v1.3.2 Source-Available License Builder</p>
         </div>
       </div>
 
@@ -342,12 +323,6 @@
       <div class="form-group">
         <label for="projectUrl">Repository / Source Link</label>
         <input type="text" id="projectUrl" value="https://github.com/VicRodger27/my-project">
-      </div>
-
-      <div class="stego-badge">
-        🕵️‍♂️ <strong>Active Stealth Tag Verification</strong>
-        <div>UUID: <span id="activeUuid">...</span></div>
-        <div>Timestamp: <span id="activeTs">...</span></div>
       </div>
 
       <button id="openInspectorBtn" class="btn-inspect">Inspect & Verify License</button>
@@ -527,8 +502,6 @@ will be reformed only to the extent necessary to make it enforceable.`;
     const licenseOutput = document.getElementById('licenseOutput');
     const copyBtn = document.getElementById('copyBtn');
     const downloadBtn = document.getElementById('downloadBtn');
-    const activeUuidEl = document.getElementById('activeUuid');
-    const activeTsEl = document.getElementById('activeTs');
 
     // Modal elements
     const inspectorModal = document.getElementById('inspectorModal');
@@ -598,11 +571,7 @@ will be reformed only to the extent necessary to make it enforceable.`;
       const projectName = projectNameInput.value || '[PROJECT NAME]';
       const projectUrl = projectUrlInput.value || '[PROJECT URL]';
 
-      // Update badge UI
-      activeUuidEl.textContent = currentUuid;
-      activeTsEl.textContent = parse14DigitTimestamp(currentTimestampStr);
-
-      // Raw steganography payload string
+      // Raw steganography payload string generated quietly in background
       const stegoPayloadStr = `VPL|${currentUuid}|${currentTimestampStr}|${holder}|${year}|${projectName}`;
       const invisibleTag = encodeStegoPayload(stegoPayloadStr);
 
@@ -695,7 +664,7 @@ will be reformed only to the extent necessary to make it enforceable.`;
         const year = parts[4] || 'N/A';
         const project = parts[5] || 'N/A';
 
-        statusHeader.textContent = '🟢 Authentic VPL License Tag Detected!';
+        statusHeader.textContent = 'Authentic VPL License Tag Detected!';
         statusHeader.className = 'result-status status-valid';
 
         resultDetails.innerHTML = `
@@ -711,7 +680,7 @@ will be reformed only to the extent necessary to make it enforceable.`;
           <div class="result-value">${project}</div>
         `;
       } else {
-        statusHeader.textContent = '🔴 No Valid Steganographic VPL Tag Found';
+        statusHeader.textContent = 'No Valid Steganographic VPL Tag Found';
         statusHeader.className = 'result-status status-invalid';
         resultDetails.innerHTML = `
           <div class="result-label" style="grid-column: span 2;">
