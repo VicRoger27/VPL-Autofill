@@ -290,11 +290,13 @@
     }
 
     .markdown-body code {
-      background: rgba(51, 65, 85, 0.5);
+      background: rgba(51, 65, 85, 0.6);
+      color: var(--accent);
       padding: 0.2rem 0.4rem;
       border-radius: 4px;
-      font-family: ui-monospace, SFMono-Regular, monospace;
-      font-size: 0.85em;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+      font-size: 0.88em;
+      border: 1px solid rgba(51, 65, 85, 0.8);
     }
 
     /* Modal Overlay Styles */
@@ -506,6 +508,7 @@
     const licenseTemplate = `# Vopple Public License (VPL) v1.1
 
 **Source-Available / Non-Commercial Copyleft License**
+*Generated on <https://vpl.vopple.uk>
 
 **Copyright (©) {YEAR} {HOLDER}{STEGO_TAG}**
 
@@ -551,7 +554,7 @@ must include or link to the **complete corresponding source code**, including
 all modifications, in a form suitable for further modification. Providing only
 compiled, minified, obfuscated, or partial source does not satisfy this condition.
 
- #### This can be disclosed with : ``Remix of {HOLDER}'s {PROJECT_NAME}, which can be found at {PROJECT_URL}.``
+#### This can be disclosed with : \`Remix of {HOLDER}'s {PROJECT_NAME}, which can be found at {PROJECT_URL}.\`
 
 ### 2.3 Statement of Changes
 
@@ -719,21 +722,31 @@ will be reformed only to the extent necessary to make it enforceable.`;
     // Pre-calculated hidden magic header string prepended at character index 0
     const INVISIBLE_MAGIC_HEADER = encodeStegoPayload('VPL_HDR');
 
-    // Lightweight Client-Side Markdown Parser
+    // Robust Client-Side Markdown Parser
     function renderMarkdownToHTML(markdownText) {
       let html = markdownText;
 
       // Remove plane 14 steganographic tags from HTML rendering view
       html = html.replace(/[\u{E0000}-\u{E007F}]/gu, '');
 
+      // Escape raw HTML entities to prevent rendering breaks
+      html = html.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+
+      // Triple backtick code blocks
+      html = html.replace(/```([\s\S]*?)```/g, (match, p1) => {
+        return `<code>${p1.trim()}</code>`;
+      });
+
+      // Single backtick inline code blocks
+      html = html.replace(/`([^`\n]+)`/g, (match, p1) => {
+        return `<code>${p1}</code>`;
+      });
+
       // Headings
       html = html.replace(/^#### (.*$)/gim, '<h4>$1</h4>');
       html = html.replace(/^### (.*$)/gim, '<h3>$1</h3>');
       html = html.replace(/^## (.*$)/gim, '<h2>$1</h2>');
       html = html.replace(/^# (.*$)/gim, '<h1>$1</h1>');
-
-      // Inline code blocks
-      html = html.replace(/```(.*?)```/gim, '<code>$1</code>');
 
       // Bold & Italics
       html = html.replace(/\*\*(.*?)\*\*/gim, '<strong>$1</strong>');
@@ -762,7 +775,7 @@ will be reformed only to the extent necessary to make it enforceable.`;
             result += '</ul>';
             inList = false;
           }
-          if (line.trim().length > 0 && !line.startsWith('<h')) {
+          if (line.trim().length > 0 && !line.startsWith('<h') && !line.startsWith('<code')) {
             result += `<p>${line}</p>`;
           } else {
             result += line;
