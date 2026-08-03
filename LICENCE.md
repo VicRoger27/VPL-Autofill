@@ -1,6 +1,9 @@
-# Vopple Public License (VPL) v1.0
+󠀁󠁖󠁐󠁌󠁟󠁈󠁄󠁒# Vopple Public License (VPL) v2.0
 
-Copyright (©) 2026 VicRodger27
+**Source-Available / Non-Commercial Copyleft License**
+*Generated on [https://vpl.vopple.uk](https://vpl.vopple.uk)*
+
+#### **Copyright (©) 2026 VicRodger27󠀁󠁖󠁐󠁌󠁼󠀰󠀲󠁦󠀶󠁡󠀶󠀱󠀰󠀭󠀹󠁦󠀰󠀶󠀭󠀴󠀱󠀶󠀲󠀭󠁢󠀳󠀰󠀹󠀭󠀵󠁤󠁣󠀶󠀹󠀲󠀴󠀹󠀸󠁦󠁣󠁡󠁼󠀱󠀷󠀴󠀳󠀰󠀱󠀰󠀳󠀰󠀸󠀲󠀰󠀲󠀶󠁼󠁖󠁩󠁣󠁒󠁯󠁤󠁧󠁥󠁲󠀲󠀷󠁼󠀲󠀰󠀲󠀶󠁼󠁍󠁹󠀠󠁐󠁲󠁯󠁪󠁥󠁣󠁴󠀠󠀣󠀱**
 
 ## 1. Grant of Rights
 
@@ -13,32 +16,40 @@ non-exclusive license to:
 - **Modify** the Software;
 - **Distribute** the Software and modified versions of it;
 
-in accordance with the conditions below.
+in accordance with the conditions stated below.
 
 ## 2. Conditions
 
 Any use, modification, or distribution of the Software is conditioned on
 all of the following:
 
-### 2.1 No Private Use / Public Disclosure Required
+### 2.1 Public Disclosure Required & Network Binding
 
 You may **not** use, run, modify, or deploy the Software, or any
-derivative work based on it, privately or internally. Any use of the
-Software beyond simply reading its source code requires that your
-copy — including any modifications — be made publicly available, either:
+derivative work based on it, privately or internally **in production**. Any
+deployment of the Software — including making its functionality accessible to
+third parties over a computer network (SaaS) — requires that your copy,
+including any modifications, be made publicly available, either:
 
-- as a **public fork** of the original repository, or
-- as a **pull/merge request** submitted back to the original project.
+- as a **public fork** of the original repository (https://github.com/VicRodger27/VPL-Autofill), or
+- as a **pull/merge request** submitted back to My Project #1 (https://github.com/VicRodger27/VPL-Autofill).
 
-Private forks, internal deployments, or closed derivative works are not
-permitted under this License.
+**Exemption:** Ephemeral, non-production, local execution strictly
+for private testing, bug fixing, or preparing a public pull/merge request is
+permitted.
+
+**Important: This does not exclude open testing or other public testing/survey.**
 
 ### 2.2 Complete Source Disclosure
 
-Any distribution of the Software or a derivative work must include the
-**complete corresponding source code**, including all modifications,
-in a form suitable for further modification. Providing only compiled,
-minified, obfuscated, or partial source does not satisfy this condition.
+Any distribution or network deployment of the Software or a derivative work
+must include or link to the **complete corresponding source code**, including
+all modifications, in a form suitable for further modification. Providing only
+compiled, minified, obfuscated, or partial source does not satisfy this condition.
+
+#### This can be disclosed by writing a file named `ATTRIBUTION.txt` at root level
+#### in the main branch (if applicable) containing what is stated below:
+#### `This is a remix of VicRodger27's My Project #1, which can be found at https://github.com/VicRodger27/VPL-Autofill`
 
 ### 2.3 Statement of Changes
 
@@ -69,10 +80,10 @@ distribution, fork, modified version, or derivative work must include
 clear and reasonably prominent attribution to the original author(s) of
 the Software, identifying:
 
-- the name of the original author(s) or copyright holder, as stated in
+- the name of the original author(s) or copyright holder (VicRodger27), as stated in
   the copyright notice above; and
-- the name of the original project and, where practicable, a link or
-  reference to its original source location.
+- the name of the original project (My Project #1) and, where practicable, a link or
+  reference to its original source location (https://github.com/VicRodger27/VPL-Autofill).
 
 This attribution must appear in a location reasonably likely to be
 seen by users or recipients of the derivative work (for example, in the
@@ -89,15 +100,13 @@ Software, selling access to it, using it to provide a paid product or
 service, or using it internally within a for-profit commercial
 operation. No exceptions apply.
 
-### 2.8 No Patent Rights Granted
+### 2.8 No Patent Rights & Defensive Termination
 
-This License does **not** grant, and shall not be construed as
-granting, any express or implied license or right under any patent
-claim, whether or not such patent is owned or controllable by the
-copyright holder or any contributor. Nothing in this License shall be
-interpreted as a patent grant, patent peace covenant, or patent
-non-assertion. Anyone wishing to exercise any patent rights related to
-the Software must obtain them separately.
+This License does **not** grant any express or implied patent rights.
+Furthermore, if you or your affiliate institute patent litigation or
+assertion against the copyright holder or any contributor alleging that the
+Software or any portion thereof infringes any patent, all rights granted to you
+under this License shall terminate automatically as of the date such litigation is filed.
 
 ## 3. Disclaimer of Warranty
 
@@ -115,17 +124,17 @@ CONTRACT, TORT, OR OTHERWISE, ARISING FROM, OUT OF, OR IN CONNECTION
 WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE, EVEN IF
 ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-## 5. Termination
+## 5. Termination & 30-Day Cure Period
 
 Any violation of the conditions in Section 2 automatically terminates
-your rights under this License. Rights terminated this way are not
-reinstated automatically, even after the violation is corrected, unless
-the copyright holder explicitly restores them in writing.
+your rights under this license. However, if all violations cease, your
+license is reinstated provisionally until 30 days after voilating the 
+license. If you cure the violation within those 30 days, your license 
+is permanently reinstated. Repeated or willful violations shall not 
+qualify for automatic reinstatement.
 
 ## 6. Severability
 
 If any provision of this License is held unenforceable, the remaining
 provisions will remain in full force, and the unenforceable provision
 will be reformed only to the extent necessary to make it enforceable.
-
----
