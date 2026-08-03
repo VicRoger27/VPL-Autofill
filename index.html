@@ -243,6 +243,13 @@
       color: var(--accent);
     }
 
+    .markdown-body h4 {
+      font-size: 0.95rem;
+      margin-top: 1rem;
+      margin-bottom: 0.4rem;
+      color: var(--text);
+    }
+
     .markdown-body p {
       margin-bottom: 0.85rem;
     }
@@ -268,6 +275,14 @@
     .markdown-body a {
       color: var(--accent);
       text-decoration: underline;
+    }
+
+    .markdown-body code {
+      background: rgba(51, 65, 85, 0.5);
+      padding: 0.2rem 0.4rem;
+      border-radius: 4px;
+      font-family: ui-monospace, SFMono-Regular, monospace;
+      font-size: 0.85em;
     }
 
     /* Modal Overlay Styles */
@@ -516,7 +531,7 @@ must include or link to the **complete corresponding source code**, including
 all modifications, in a form suitable for further modification. Providing only
 compiled, minified, obfuscated, or partial source does not satisfy this condition.
 
- #### This can be disclosed with : ```Remix of {HOLDER}'s {PROJECT_NAME}, which can be found at {PROJECT_URL}.```
+ #### This can be disclosed with : \`\`\`Remix of {HOLDER}'s {PROJECT_NAME}, which can be found at {PROJECT_URL}.\`\`\`
 
 ### 2.3 Statement of Changes
 
@@ -692,9 +707,13 @@ will be reformed only to the extent necessary to make it enforceable.`;
       html = html.replace(/[\u{E0000}-\u{E007F}]/gu, '');
 
       // Headings
+      html = html.replace(/^#### (.*$)/gim, '<h4>$1</h4>');
       html = html.replace(/^### (.*$)/gim, '<h3>$1</h3>');
       html = html.replace(/^## (.*$)/gim, '<h2>$1</h2>');
       html = html.replace(/^# (.*$)/gim, '<h1>$1</h1>');
+
+      // Inline code blocks
+      html = html.replace(/```(.*?)```/gim, '<code>$1</code>');
 
       // Bold & Italics
       html = html.replace(/\*\*(.*?)\*\*/gim, '<strong>$1</strong>');
