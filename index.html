@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Vopple Public License (VPL) v1.3.2 Studio</title>
+  <title>Vopple Public License (VPL) v1.4.1 Studio</title>
   <!-- Embedded SVG Thick Book Favicon in #11FFAA Neon -->
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='24' fill='%230f172a'/><rect x='30' y='18' width='50' height='64' rx='6' fill='%231e293b' stroke='%2311FFAA' stroke-width='5'/><path d='M20 24 C20 20.7 22.7 18 26 18 H32 V82 H26 C22.7 82 20 79.3 20 76 Z' fill='%2311FFAA'/><rect x='34' y='76' width='44' height='6' fill='%2394a3b8'/><path d='M44 34 H68 M44 44 H68 M44 54 H60' stroke='%2311FFAA' stroke-width='4' stroke-linecap='round'/></svg>">
   <style>
@@ -141,6 +141,7 @@
     .btn-primary {
       background: var(--accent);
       color: var(--accent-text);
+      width: 100%;
     }
 
     .btn-primary:hover {
@@ -150,6 +151,7 @@
     .btn-secondary {
       background: var(--secondary-btn);
       color: var(--text);
+      width: 100%;
     }
 
     .btn-secondary:hover {
@@ -159,8 +161,6 @@
     .btn-inspect {
       background: #3b82f6;
       color: #ffffff;
-      width: 100%;
-      margin-top: 0.5rem;
     }
 
     .btn-inspect:hover {
@@ -290,6 +290,7 @@
 <body>
 
   <div class="container">
+    <!-- Form Card (Creation Workflow) -->
     <div class="card">
       <div class="brand">
         <svg class="brand-icon" viewBox="0 0 100 100">
@@ -301,7 +302,7 @@
         </svg>
         <div>
           <h1>VPL Studio</h1>
-          <p class="subtitle">v1.3.2 Source-Available License Builder</p>
+          <p class="subtitle">v1.4.1 Source-Available License Builder</p>
         </div>
       </div>
 
@@ -325,16 +326,18 @@
         <input type="text" id="projectUrl" value="https://github.com/VicRodger27/my-project">
       </div>
 
-      <button id="openInspectorBtn" class="btn-inspect">Inspect & Verify License</button>
+      <!-- Action Buttons directly beneath inputs for natural user flow -->
+      <div style="display: flex; flex-direction: column; gap: 0.5rem; margin-top: 0.5rem;">
+        <button id="downloadBtn" class="btn-primary">Download .md File</button>
+        <button id="copyBtn" class="btn-secondary">Copy Text</button>
+      </div>
     </div>
 
+    <!-- Live Preview Card & Verification Trigger -->
     <div class="card">
       <div class="header-actions">
         <h2>Generated VPL v1.1 License</h2>
-        <div class="button-group">
-          <button id="copyBtn" class="btn-primary">Copy Text</button>
-          <button id="downloadBtn" class="btn-secondary">Download .md</button>
-        </div>
+        <button id="openInspectorBtn" class="btn-inspect">Inspect & Verify License</button>
       </div>
       <textarea id="licenseOutput" readonly></textarea>
     </div>
@@ -351,7 +354,7 @@
       
       <textarea id="inspectInput" class="inspector-textarea" placeholder="Paste full LICENSE.md content here..."></textarea>
       
-      <button id="runInspectBtn" class="btn-primary">Decode & Verify Tags</button>
+      <button id="runInspectBtn" class="btn-primary" style="width: auto;">Decode & Verify Tags</button>
 
       <div class="result-box" id="inspectResult" style="display: none;">
         <div id="statusHeader" class="result-status"></div>
@@ -594,25 +597,7 @@ will be reformed only to the extent necessary to make it enforceable.`;
       });
     });
 
-    // Copy to Clipboard
-    copyBtn.addEventListener('click', async () => {
-      try {
-        await navigator.clipboard.writeText(licenseOutput.value);
-        const originalText = copyBtn.textContent;
-        copyBtn.textContent = 'Copied!';
-        copyBtn.style.background = 'var(--success)';
-        copyBtn.style.color = '#ffffff';
-        setTimeout(() => {
-          copyBtn.textContent = originalText;
-          copyBtn.style.background = 'var(--accent)';
-          copyBtn.style.color = 'var(--accent-text)';
-        }, 2000);
-      } catch (err) {
-        alert('Failed to copy text. Please select all and copy manually.');
-      }
-    });
-
-    // Download .md File
+    // Download .md File (Primary Form Action)
     downloadBtn.addEventListener('click', () => {
       const text = licenseOutput.value;
       const blob = new Blob([text], { type: 'text/markdown;charset=utf-8;' });
@@ -626,14 +611,32 @@ will be reformed only to the extent necessary to make it enforceable.`;
       URL.revokeObjectURL(url);
 
       const originalText = downloadBtn.textContent;
-      downloadBtn.textContent = 'Saved!';
+      downloadBtn.textContent = 'Saved LICENSE.md!';
       downloadBtn.style.background = 'var(--success)';
       downloadBtn.style.color = '#ffffff';
       setTimeout(() => {
         downloadBtn.textContent = originalText;
-        downloadBtn.style.background = 'var(--secondary-btn)';
-        downloadBtn.style.color = 'var(--text)';
+        downloadBtn.style.background = 'var(--accent)';
+        downloadBtn.style.color = 'var(--accent-text)';
       }, 2000);
+    });
+
+    // Copy to Clipboard
+    copyBtn.addEventListener('click', async () => {
+      try {
+        await navigator.clipboard.writeText(licenseOutput.value);
+        const originalText = copyBtn.textContent;
+        copyBtn.textContent = 'Copied!';
+        copyBtn.style.background = 'var(--success)';
+        copyBtn.style.color = '#ffffff';
+        setTimeout(() => {
+          copyBtn.textContent = originalText;
+          copyBtn.style.background = 'var(--secondary-btn)';
+          copyBtn.style.color = 'var(--text)';
+        }, 2000);
+      } catch (err) {
+        alert('Failed to copy text. Please select all and copy manually.');
+      }
     });
 
     // Modal Control
