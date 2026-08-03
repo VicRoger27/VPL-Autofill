@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Vopple Public License (VPL) v1.5.0 Studio</title>
+  <title>Vopple Public License (VPL) v1.6.0 Studio</title>
   <!-- Embedded SVG Thick Book Favicon in #11FFAA Neon -->
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='24' fill='%230f172a'/><rect x='30' y='18' width='50' height='64' rx='6' fill='%231e293b' stroke='%2311FFAA' stroke-width='5'/><path d='M20 24 C20 20.7 22.7 18 26 18 H32 V82 H26 C22.7 82 20 79.3 20 76 Z' fill='%2311FFAA'/><rect x='34' y='76' width='44' height='6' fill='%2394a3b8'/><path d='M44 34 H68 M44 44 H68 M44 54 H60' stroke='%2311FFAA' stroke-width='4' stroke-linecap='round'/></svg>">
   <style>
@@ -120,12 +120,6 @@
       align-items: center;
       flex-wrap: wrap;
       gap: 0.75rem;
-    }
-
-    .button-group {
-      display: flex;
-      gap: 0.5rem;
-      flex-wrap: wrap;
     }
 
     button {
@@ -310,7 +304,7 @@
         </svg>
         <div>
           <h1>VPL Studio</h1>
-          <p class="subtitle">v1.5.0 Source-Available License Builder</p>
+          <p class="subtitle">v1.6.0 Source-Available License Builder</p>
         </div>
       </div>
 
@@ -321,20 +315,20 @@
 
       <div class="form-group">
         <label for="holder">Copyright Holder / Author</label>
-        <input type="text" id="holder" value="VicRodger27">
+        <input type="text" id="holder" value="Copyright Holder">
       </div>
 
       <div class="form-group">
         <label for="projectName">Project Name</label>
-        <input type="text" id="projectName" value="My Awesome Project">
+        <input type="text" id="projectName" value="My Project #1">
       </div>
 
       <div class="form-group">
         <label for="projectUrl">Repository / Source Link</label>
-        <input type="text" id="projectUrl" value="https://github.com/VicRodger27/my-project">
+        <input type="text" id="projectUrl" value="https://your-source-link.net">
       </div>
 
-      <!-- Action Buttons directly beneath inputs for natural user flow -->
+      <!-- Action Buttons directly beneath inputs -->
       <div style="display: flex; flex-direction: column; gap: 0.5rem; margin-top: 0.5rem;">
         <button id="downloadBtn" class="btn-primary">Download .md File</button>
         <button id="copyBtn" class="btn-secondary">Copy Text</button>
@@ -576,6 +570,9 @@ will be reformed only to the extent necessary to make it enforceable.`;
       return payload;
     }
 
+    // Pre-calculated hidden magic header string prepended at character index 0
+    const INVISIBLE_MAGIC_HEADER = encodeStegoPayload('VPL_HDR');
+
     function updateLicense() {
       const year = yearInput.value || '[YEAR]';
       const holder = holderInput.value || '[COPYRIGHT HOLDER]';
@@ -593,7 +590,8 @@ will be reformed only to the extent necessary to make it enforceable.`;
         .replace(/{PROJECT_URL}/g, projectUrl)
         .replace(/{STEGO_TAG}/g, invisibleTag);
 
-      licenseOutput.value = text;
+      // Prepend invisible magic header right at index 0 of document
+      licenseOutput.value = INVISIBLE_MAGIC_HEADER + text;
     }
 
     [yearInput, holderInput, projectNameInput, projectUrlInput].forEach(input => {
@@ -605,7 +603,7 @@ will be reformed only to the extent necessary to make it enforceable.`;
       });
     });
 
-    // Download .md File (Primary Form Action)
+    // Download .md File
     downloadBtn.addEventListener('click', () => {
       const text = licenseOutput.value;
       const blob = new Blob([text], { type: 'text/markdown;charset=utf-8;' });
@@ -663,12 +661,29 @@ will be reformed only to the extent necessary to make it enforceable.`;
     // Decode & Verify Core Logic
     function performVerification() {
       const textToInspect = inspectInput.value;
-      const decodedStr = decodeStegoPayload(textToInspect);
-
       inspectResult.style.display = 'flex';
 
-      if (decodedStr && decodedStr.startsWith('VPL|')) {
-        const parts = decodedStr.split('|');
+      // 1. FAST-PATH PRE-CHECK: Inspect only first 150 chars for invisible magic header
+      const headSnippet = textToInspect.substring(0, 150);
+      const headDecoded = decodeStegoPayload(headSnippet);
+
+      if (!headDecoded.includes('VPL_HDR')) {
+        statusHeader.textContent = 'Not a VPL License File';
+        statusHeader.className = 'result-status status-invalid';
+        resultDetails.innerHTML = `
+          <div class="result-label" style="grid-column: span 2;">
+            Fast-path verification failed: This document does not start with an authentic hidden VPL magic header. Aborted full scan.
+          </div>
+        `;
+        return;
+      }
+
+      // 2. FULL PAYLOAD DECODE: Proceed to parse metadata payload
+      const decodedStr = decodeStegoPayload(textToInspect);
+
+      if (decodedStr && decodedStr.includes('VPL|')) {
+        const payloadSection = decodedStr.substring(decodedStr.indexOf('VPL|'));
+        const parts = payloadSection.split('|');
         const uuid = parts[1] || 'N/A';
         const rawTs = parts[2] || '';
         const holder = parts[3] || 'N/A';
@@ -691,11 +706,11 @@ will be reformed only to the extent necessary to make it enforceable.`;
           <div class="result-value">${project}</div>
         `;
       } else {
-        statusHeader.textContent = 'No Valid Steganographic VPL Tag Found';
+        statusHeader.textContent = 'Malformed VPL License Tags';
         statusHeader.className = 'result-status status-invalid';
         resultDetails.innerHTML = `
           <div class="result-label" style="grid-column: span 2;">
-            The pasted text does not contain an authentic VPL Plane 14 verification tag, or it may have been stripped during plain text conversions.
+            Magic header passed, but full payload data was corrupted or incomplete.
           </div>
         `;
       }
